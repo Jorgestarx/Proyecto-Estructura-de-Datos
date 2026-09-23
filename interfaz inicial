@@ -3,7 +3,7 @@ import tkinter as tk
 from tkinter import ttk
 
 #verificaciones
-from registro import verificar_identificación
+from registro import verificar_identificación, verificar_nombre
 
 
 
@@ -31,31 +31,49 @@ class VentanaRegistro():
         #widgets 
         self.etiqueta1 = tk.Label(self.ventana2, text = "Datos")
         #widgets identificación
-        self.etiquetaid=tk.Label(self.ventana2, text = "Identificación")
-        self.etiquetaid2 = tk.Label(self.ventana2, text ="")
-        self.botonverif = tk.Button(self.ventana2, text="verificar", command=self.verif_boton_id)
+        self.labelid=tk.Label(self.ventana2, text = "Identificación")
+        self.labelid2 = tk.Label(self.ventana2, text ="")
+        self.botonid = tk.Button(self.ventana2, text="verificar", command=self.verif_boton_id)
         
         
         #entry identificación
-        self.ingreso_id = tk.Entry(self.ventana2)
+        self.entry_id = tk.Entry(self.ventana2)
         
         
-        
+        #Widgets nombre
+        self.labelnombre = tk.Label(self.ventana2, text="Nombre completo")
+        self.entry_nombre = tk.Entry(self.ventana2)
+        self.labelnombre2 = tk.Label(self.ventana2, text="")
+        self.botonnombre = tk.Button(self.ventana2, text="Verificar", command= self.verif_boton_nombre) #Boton verificación nombre FALTA AGREGAR COMANDO DE FUNCIÓN
+
+        #.packs
+        #id
         self.etiqueta1.pack(pady = 2)
-        self.etiquetaid.pack(pady = 2)
-        self.ingreso_id.pack(pady =3)
-        self.etiquetaid2.pack(pady=2)
-        self.botonverif.pack(pady=2)
+        self.labelid.pack(pady = 2)
+        self.entry_id.pack(pady =3)
+        self.labelid2.pack(pady=2)
+        self.botonid.pack(pady=2)
+        #nombre
+        self.labelnombre.pack(pady=2)
+        self.entry_nombre.pack(pady=3)
+        self.labelnombre2.pack(pady=3)
+        self.botonnombre.pack(pady=2)
    
 #Función verificación entry identificación
     def verif_boton_id(self):
-        if verificar_identificación(self.ingreso_id.get()):
-            self.etiquetaid2.config(text="Identificación válida")
-            self.botonverif.config(state="disabled")
+        if verificar_identificación(self.entry_id.get()):
+            self.labelid2.config(text="Identificación válida")
+            self.botonid.config(state="disabled")
         else:
-            self.etiquetaid2.config(text="Identificación inválida")
+            self.labelid2.config(text="Identificación inválida")
 
-        
+#Función verificación nombre
+    def verif_boton_nombre(self):
+        if verificar_nombre(self.entry_nombre.get()):
+            self.labelnombre2.config(text="Nombre ingresado correctamente")
+        else:
+            self.labelnombre2.config(text="Nombre inválido, intente nuevamente")
+
 #---------------------------------Página principal--------------------------------
 ventana = tk.Tk()
 
