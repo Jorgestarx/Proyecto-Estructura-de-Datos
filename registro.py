@@ -33,7 +33,7 @@ def verificar_nsesiones(nsesiones):
 generos = ["femenino", "masculino"]
 
 #Diccionario menú  
-menus = {"Menu ejecutivo" : 35000     , "Menu vegetariano" : 28000  , "Menu de degustación" : 75000  , "Menu infantil" : 20000 , "Menu gourmet" : 95000}
+menus = {"Ejecutivo" : 35000     , "Vegetariano" : 28000  , "Degustación" : 75000  , "Infantil" : 20000 , "Gourmet" : 95000}
 
 
 #-----------------------------------Clase Gestión de clientes----------------------------------- 

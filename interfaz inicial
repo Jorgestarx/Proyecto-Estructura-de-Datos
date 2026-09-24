@@ -3,7 +3,7 @@ import tkinter as tk
 from tkinter import ttk
 
 #verificaciones
-from registro import verificar_identificación, verificar_nombre, verificar_genero, generos
+from registro import verificar_identificación, verificar_nombre, verificar_genero, generos, menus
 
 
 
@@ -52,6 +52,12 @@ class VentanaRegistro():
         self.labelgenero2 = tk.Label(self.ventana2, text ="")
         self.botongenero = tk.Button(self.ventana2, text="Verificar", command=self.verif_genero)
 
+
+        #Menu
+        self.labelmenu = tk.Label(self.ventana2, text="Menu")
+        self.combomenu = ttk.Combobox(self.ventana2, values=list(menus.keys()), state="readonly")
+        self.entrymenu = tk.Entry(self.ventana2)
+
         #.packs
         #id
         self.etiqueta1.pack(pady = 2)
@@ -69,6 +75,12 @@ class VentanaRegistro():
         self.combogenero.pack(pady=3)
         self.labelgenero2.pack(pady=2)
         self.botongenero.pack(pady=2)
+
+        #Menu
+        self.labelmenu.pack(pady=2)
+        self.combomenu.pack(pady=2)
+        self.combomenu.bind("<<ComboboxSelected>>", self.revelar_costo)
+        self.entrymenu.pack(pady=2)
    
 #Función verificación entry identificación
     def verif_id(self):
@@ -91,6 +103,13 @@ class VentanaRegistro():
             self.labelgenero2.config(text="Genero ingresado exitosamente")
         else:
             self.labelgenero2.config(text="Género ingresado es inválido")
+
+#Función que muestra los costos
+    def revelar_costo(self, event):
+        self.entrymenu.config(state="normal")
+        self.entrymenu.delete(0, tk.END)
+        self.entrymenu.insert(0, f"Costo: {menus[self.combomenu.get()]}")
+        self.entrymenu.config(state="disabled")
 
 #---------------------------------Página principal--------------------------------
 ventana = tk.Tk()
