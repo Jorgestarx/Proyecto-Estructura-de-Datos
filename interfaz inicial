@@ -1,9 +1,10 @@
 
 import tkinter as tk
 from tkinter import ttk
+import datetime
 
 #verificaciones
-from registro import verificar_identificación, verificar_nombre, verificar_genero, verificar_nsesiones, generos, menus
+from registro import verificar_identificación, verificar_nombre, verificar_genero, verificar_nsesiones, generos, menus, verificar_menu, GestionClientes
 
 
 
@@ -26,7 +27,7 @@ def verificar_contraseña():
 class VentanaRegistro():
     def __init__(self):
         self.ventana2 = tk.Toplevel()
-        self.ventana2.geometry("600x600")
+        self.ventana2.geometry("700x700")
         self.ventana2.title("Registro")
         #widgets 
         self.etiqueta1 = tk.Label(self.ventana2, text = "Datos")
@@ -64,6 +65,20 @@ class VentanaRegistro():
         self.entrysesiones = tk.Entry(self.ventana2)
         self.labelsesiones2 = tk.Label(self.ventana2, text="")
         self.botonsesiones = tk.Button(self.ventana2, text="Verificar", command= self.verif_sesiones)
+
+        #Registro fecha
+        registro = datetime.datetime.now()
+        self.registro = registro.strftime("%d/%m/%Y  %H:%M")
+        self.labelfecha = tk.Label(self.ventana2, text="Fecha de registro")
+        self.labelfecha2 = tk.Label(self.ventana2, text= f"{self.registro}")
+        
+
+
+        #Resultado TODAS LAS FUNCIONES
+        self.labelresultado = tk.Label(self.ventana2, text="")
+
+        #Botón guardar
+        self.botonguardar = tk.Button(self.ventana2, text="Guardar", command= self.guardar_registro)
         #---------------.packs-----------------------
         #id
         self.etiqueta1.pack(pady = 2)
@@ -94,6 +109,43 @@ class VentanaRegistro():
         self.entrysesiones.pack(pady=3)
         self.labelsesiones2.pack(pady=2)
         self.botonsesiones.pack(pady=2)
+
+        #registro fecha
+        self.labelfecha.pack(pady=2)
+        self.labelfecha2.pack(pady = 2)
+
+        #Resultado TODAS LAS FUNCIONES
+        self.labelresultado.pack(pady=2)
+
+        #Botón guardar 
+        self.botonguardar.pack(pady=3)
+
+
+#--------------------------Guardar registro-------------------------------
+    def guardar_registro(self):
+        try:
+            nsesiones =int(self.entrysesiones.get())
+        except ValueError:
+            self.labelresultado.config(text="El número de sesiones debe ser un número entero")
+            return 
+        sesiones_validas = verificar_nsesiones(nsesiones) 
+        identificación = self.entryid.get()
+        identificación_válida = verificar_identificación(identificación)
+        nombre = self.entrynombre.get()
+        nombre_válido = verificar_nombre(nombre)
+        género = self.combogenero.get()
+        género_válido =  verificar_genero(género, generos)
+        menu = self.combomenu.get()
+        menu_verificado = verificar_menu(menu,menus)
+        costo = menus[menu]
+
+        if sesiones_validas and identificación_válida and nombre_válido and género_válido and menu_verificado:
+            self.labelresultado.config(text="La información fue ingresada exitosamente")
+            self.cliente = GestionClientes(nombre, identificación, género, menu, costo, nsesiones)
+        else:
+            self.labelresultado.config(text="Hay información inválida, por favor revise el formulario")    
+            
+
 #-----------------------------Funciones-----------------------------------------
 #Función verificación entry identificación
     def verif_id(self):
