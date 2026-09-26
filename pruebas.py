@@ -1,13 +1,12 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import messagebox
 
-def mostrar_seleccion(event):
-    print("Elegiste:", combo.get())
+def confirmar_salida():
+    respuesta = messagebox.askyesno("Confirmar", "¿Está seguro de que desea salir?")
+    if respuesta:
+        ventana.destroy()
 
 ventana = tk.Tk()
-
-combo = ttk.Combobox(ventana, values=["rojo", "verde", "azul"], state="readonly")
-combo.pack()
-combo.bind("<<ComboboxSelected>>", mostrar_seleccion)
-
+boton = tk.Button(ventana, text="Salir", command=confirmar_salida)
+boton.pack()
 ventana.mainloop()

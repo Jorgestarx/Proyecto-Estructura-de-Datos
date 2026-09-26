@@ -2,6 +2,7 @@
 import tkinter as tk
 from tkinter import ttk
 import datetime
+from tkinter import messagebox
 
 #verificaciones
 from registro import verificar_identificación, verificar_nombre, verificar_genero, verificar_nsesiones, generos, menus, verificar_menu, GestionClientes
@@ -34,8 +35,6 @@ class VentanaRegistro():
         self.etiqueta1 = tk.Label(self.ventana2, text = "Datos")
         #widgets identificación
         self.labelid=tk.Label(self.ventana2, text = "Identificación")
-        self.labelid2 = tk.Label(self.ventana2, text ="")
-        self.botonid = tk.Button(self.ventana2, text="verificar", command=self.verif_id)
         
         
         #entry identificación
@@ -45,14 +44,10 @@ class VentanaRegistro():
         #Widgets nombre
         self.labelnombre = tk.Label(self.ventana2, text="Nombre completo")
         self.entrynombre = tk.Entry(self.ventana2)
-        self.labelnombre2 = tk.Label(self.ventana2, text="")
-        self.botonnombre = tk.Button(self.ventana2, text="Verificar", command= self.verif_nombre)
 
         #Widgets genero
         self.labelgenero = tk.Label(self.ventana2, text = "Genero")
         self.combogenero = ttk.Combobox(self.ventana2, values=generos, state = "readonly")
-        self.labelgenero2 = tk.Label(self.ventana2, text ="")
-        self.botongenero = tk.Button(self.ventana2, text="Verificar", command=self.verif_genero)
 
 
         #Widgets Menu
@@ -64,8 +59,6 @@ class VentanaRegistro():
         #Widgets número de sesiones
         self.labelsesiones = tk.Label(self.ventana2, text="Número de sesiones")
         self.entrysesiones = tk.Entry(self.ventana2)
-        self.labelsesiones2 = tk.Label(self.ventana2, text="")
-        self.botonsesiones = tk.Button(self.ventana2, text="Verificar", command= self.verif_sesiones)
 
         #Registro fecha
         registro = datetime.datetime.now()
@@ -83,23 +76,20 @@ class VentanaRegistro():
 
         #Generar reporte
         self.botonreporte = tk.Button(self.ventana2, text="Generar reporte", command= self.abrir_reporte)
+
+        #salir
+        self.botonsalir = tk.Button(self.ventana2, text="Salir", command=self.confirmar_salida)
         #---------------.packs-----------------------
         #id
         self.etiqueta1.pack(pady = 2)
         self.labelid.pack(pady = 2)
         self.entryid.pack(pady =3)
-        self.labelid2.pack(pady=2)
-        self.botonid.pack(pady=2)
         #nombre
         self.labelnombre.pack(pady=2)
         self.entrynombre.pack(pady=3)
-        self.labelnombre2.pack(pady=3)
-        self.botonnombre.pack(pady=2)
         #genero
         self.labelgenero.pack(pady=2)
         self.combogenero.pack(pady=3)
-        self.labelgenero2.pack(pady=2)
-        self.botongenero.pack(pady=2)
 
         #Menu
         self.labelmenu.pack(pady=2)
@@ -111,8 +101,6 @@ class VentanaRegistro():
         #Sesiones
         self.labelsesiones.pack(pady=2)
         self.entrysesiones.pack(pady=3)
-        self.labelsesiones2.pack(pady=2)
-        self.botonsesiones.pack(pady=2)
 
         #registro fecha
         self.labelfecha.pack(pady=2)
@@ -126,6 +114,9 @@ class VentanaRegistro():
 
         #Botón generar reporte
         self.botonreporte.pack(pady=2)
+
+        #Botón salir
+        self.botonsalir.pack(pady=2)
 
 
 #--------------------------Guardar registro-------------------------------
@@ -156,27 +147,6 @@ class VentanaRegistro():
             
 
 #-----------------------------Funciones-----------------------------------------
-#Función verificación entry identificación
-    def verif_id(self):
-        if verificar_identificación(self.entryid.get()):
-            self.labelid2.config(text="Identificación válida")
-            self.botonid.config(state="disabled")
-        else:
-            self.labelid2.config(text="Identificación inválida")
-
-#Función verificación nombre
-    def verif_nombre(self):
-        if verificar_nombre(self.entrynombre.get()):
-            self.labelnombre2.config(text="Nombre ingresado correctamente")
-        else:
-            self.labelnombre2.config(text="Nombre inválido, intente nuevamente")
-
-#Función verificación género
-    def verif_genero(self):
-        if verificar_genero(self.combogenero.get(), generos):
-            self.labelgenero2.config(text="Genero ingresado exitosamente")
-        else:
-            self.labelgenero2.config(text="Género ingresado es inválido")
 
 #Función que muestra los costos
     def revelar_costo(self, event):
@@ -185,17 +155,6 @@ class VentanaRegistro():
         self.entrymenu.insert(0, f"Costo: {menus[self.combomenu.get()]}")
         self.entrymenu.config(state="disabled")
 
-
-#Función número de sesiones
-    def verif_sesiones(self):
-      try: 
-        nsesiones = int(self.entrysesiones.get())
-        if verificar_nsesiones(nsesiones):
-            self.labelsesiones2.config(text="Número de sesiones válido")
-        else:
-            self.labelsesiones2.config(text = "Número de sesiones inválido, debe ser mayor a cero")
-      except ValueError:
-        self.labelsesiones2.config(text="Número de sesiones inválido. Asegurese de que sea un número entero")
 
 #--------------------Método Cálcular reporte------------------------------
     def abrir_reporte(self):
@@ -220,6 +179,12 @@ class VentanaRegistro():
         self.reportensesiones.pack(pady=2)
         self.reportetotal.pack(pady=2)
 
+
+#boton salir-----------------------------
+    def confirmar_salida(self):
+     respuesta = messagebox.askyesno("Confirmar", "¿Estás seguro de que deseas salir?")
+     if respuesta:
+        ventana.destroy()
 #---------------------------------Página inicial--------------------------------
 ventana = tk.Tk()
 
