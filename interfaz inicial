@@ -26,6 +26,7 @@ def verificar_contraseña():
 #Clase que abre nueva ventana desde el inicio de sesión
 class VentanaRegistro():
     def __init__(self):
+        self.cliente = None
         self.ventana2 = tk.Toplevel()
         self.ventana2.geometry("700x700")
         self.ventana2.title("Registro")
@@ -78,7 +79,10 @@ class VentanaRegistro():
         self.labelresultado = tk.Label(self.ventana2, text="")
 
         #Botón guardar
-        self.botonguardar = tk.Button(self.ventana2, text="Guardar", command= self.guardar_registro)
+        self.botonguardar = tk.Button(self.ventana2, text="Guardar datos", command= self.guardar_registro)
+
+        #Generar reporte
+        self.botonreporte = tk.Button(self.ventana2, text="Generar reporte", command= self.abrir_reporte)
         #---------------.packs-----------------------
         #id
         self.etiqueta1.pack(pady = 2)
@@ -120,6 +124,9 @@ class VentanaRegistro():
         #Botón guardar 
         self.botonguardar.pack(pady=3)
 
+        #Botón generar reporte
+        self.botonreporte.pack(pady=2)
+
 
 #--------------------------Guardar registro-------------------------------
     def guardar_registro(self):
@@ -128,20 +135,22 @@ class VentanaRegistro():
         except ValueError:
             self.labelresultado.config(text="El número de sesiones debe ser un número entero")
             return 
+        
         sesiones_validas = verificar_nsesiones(nsesiones) 
-        identificación = self.entryid.get()
-        identificación_válida = verificar_identificación(identificación)
+        identificacion = self.entryid.get()
+        identificación_válida = verificar_identificación(identificacion)
         nombre = self.entrynombre.get()
         nombre_válido = verificar_nombre(nombre)
-        género = self.combogenero.get()
-        género_válido =  verificar_genero(género, generos)
+        genero = self.combogenero.get()
+        género_válido =  verificar_genero(genero, generos)
         menu = self.combomenu.get()
         menu_verificado = verificar_menu(menu,menus)
         costo = menus[menu]
+    
 
         if sesiones_validas and identificación_válida and nombre_válido and género_válido and menu_verificado:
             self.labelresultado.config(text="La información fue ingresada exitosamente")
-            self.cliente = GestionClientes(nombre, identificación, género, menu, costo, nsesiones)
+            self.cliente = GestionClientes(nombre, identificacion, genero, menu, costo, nsesiones)
         else:
             self.labelresultado.config(text="Hay información inválida, por favor revise el formulario")    
             
@@ -187,6 +196,29 @@ class VentanaRegistro():
             self.labelsesiones2.config(text = "Número de sesiones inválido, debe ser mayor a cero")
       except ValueError:
         self.labelsesiones2.config(text="Número de sesiones inválido. Asegurese de que sea un número entero")
+
+#--------------------Método Cálcular reporte------------------------------
+    def abrir_reporte(self):
+     if self.cliente is None:
+        self.labelresultado.config(text= "Primero debes ingresar la información")
+     else:
+        self.ventana3 = tk.Toplevel()
+        self.reportenombre = tk.Label(self.ventana3, text=f"{self.cliente.nombre}")
+        self.reporteid = tk.Label(self.ventana3, text=f"{self.cliente.identificacion}")
+        self.reportegénero = tk.Label(self.ventana3, text=f"{self.cliente.genero}")
+        self.reportemenu = tk.Label(self.ventana3, text=f"{self.cliente.menu}")
+        self.reportecosto = tk.Label(self.ventana3, text=f"{self.cliente.costo_sesion}")
+        self.reportensesiones = tk.Label(self.ventana3, text=f"{self.cliente.nsesiones}")
+        self.reportetotal = tk.Label(self.ventana3, text=f"{self.cliente.calculo_total(self.cliente.costo_sesion, self.cliente.nsesiones)}")
+
+
+        self.reportenombre.pack(pady=2)
+        self.reporteid.pack(pady=2)
+        self.reportegénero.pack(pady=2)
+        self.reportemenu.pack(pady=2)
+        self.reportecosto.pack(pady=2)
+        self.reportensesiones.pack(pady=2)
+        self.reportetotal.pack(pady=2)
 
 #---------------------------------Página inicial--------------------------------
 ventana = tk.Tk()
