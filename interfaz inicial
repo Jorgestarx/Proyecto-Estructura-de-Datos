@@ -31,10 +31,25 @@ class VentanaRegistro():
         self.ventana2 = tk.Toplevel()
         self.ventana2.geometry("700x700")
         self.ventana2.title("Registro")
+        self.ventana2.config(bg="#FAF3E0")
+        estilo = ttk.Style()
+        estilo.theme_use("clam")
+        estilo.configure("TCombobox", fieldbackground="#FAF3E0", background="#8B1E3F", foreground="#2B2118")
+
+        estilo.configure("Rojo.TButton", background="#8B1E3F", foreground="#FAF3E0",
+        font=("Helvetica", 10, "bold"), padding=8)
+        estilo.map("Rojo.TButton", background=[("active", "#6e1732")])
+
+        estilo.configure("Dorado.TButton", background="#C9A227", foreground="#2B2118",
+        font=("Helvetica", 10, "bold"), padding=8)
+        estilo.map("Dorado.TButton", background=[("active", "#a3841f")])
+
         #widgets 
-        self.etiqueta1 = tk.Label(self.ventana2, text = "Datos")
+        self.etiqueta1 = tk.Label(self.ventana2, text="Datos", bg="#FAF3E0", fg="#2B2118")
+        #Logo
+        self.labellogo = tk.Label(self.ventana2, text="🍷 LA RAMBLA ROJA 🍷", font="Helvetica 16 bold", bg="#FAF3E0", fg="#8B1E3F")
         #widgets identificación
-        self.labelid=tk.Label(self.ventana2, text = "Identificación")
+        self.labelid=tk.Label(self.ventana2, text = "Identificación", bg="#8B1E3F", fg="#FAF3E0")
         
         
         #entry identificación
@@ -42,44 +57,44 @@ class VentanaRegistro():
         
         
         #Widgets nombre
-        self.labelnombre = tk.Label(self.ventana2, text="Nombre completo")
+        self.labelnombre = tk.Label(self.ventana2, text="Nombre completo", bg="#8B1E3F", fg="#FAF3E0")
         self.entrynombre = tk.Entry(self.ventana2)
 
         #Widgets genero
-        self.labelgenero = tk.Label(self.ventana2, text = "Genero")
+        self.labelgenero = tk.Label(self.ventana2, text = "Genero", bg="#8B1E3F", fg="#FAF3E0")
         self.combogenero = ttk.Combobox(self.ventana2, values=generos, state = "readonly")
 
 
         #Widgets Menu
-        self.labelmenu = tk.Label(self.ventana2, text="Menu")
+        self.labelmenu = tk.Label(self.ventana2, text="Menu", bg="#8B1E3F", fg="#FAF3E0")
         self.combomenu = ttk.Combobox(self.ventana2, values=list(menus.keys()), state="readonly")
         self.entrymenu = tk.Entry(self.ventana2, state="disabled")
 
 
         #Widgets número de sesiones
-        self.labelsesiones = tk.Label(self.ventana2, text="Número de sesiones")
+        self.labelsesiones = tk.Label(self.ventana2, text="Número de sesiones", bg="#8B1E3F", fg="#FAF3E0")
         self.entrysesiones = tk.Entry(self.ventana2)
 
         #Registro fecha
         registro = datetime.datetime.now()
         self.registro = registro.strftime("%d/%m/%Y  %H:%M")
-        self.labelfecha = tk.Label(self.ventana2, text="Fecha de registro")
-        self.labelfecha2 = tk.Label(self.ventana2, text= f"{self.registro}")
+        self.labelfecha = tk.Label(self.ventana2, text="Fecha de registro", bg="#8B1E3F", fg="#FAF3E0")
+        self.labelfecha2 = tk.Label(self.ventana2, text= f"{self.registro}", bg="#8B1E3F", fg="#FAF3E0")
         
 
 
         #Resultado TODAS LAS FUNCIONES
-        self.labelresultado = tk.Label(self.ventana2, text="")
+        self.labelresultado = tk.Label(self.ventana2, text="", bg="#8B1E3F", fg="#FAF3E0")
 
         #Botón guardar
-        self.botonguardar = tk.Button(self.ventana2, text="Guardar datos", command= self.guardar_registro)
-
+        self.botonguardar = ttk.Button(self.ventana2, text="Guardar datos", command=self.guardar_registro, style="Rojo.TButton")
         #Generar reporte
-        self.botonreporte = tk.Button(self.ventana2, text="Generar reporte", command= self.abrir_reporte)
-
+        self.botonreporte = ttk.Button(self.ventana2, text="Generar reporte", command=self.abrir_reporte, style="Rojo.TButton")
         #salir
-        self.botonsalir = tk.Button(self.ventana2, text="Salir", command=self.confirmar_salida)
+        self.botonsalir = ttk.Button(self.ventana2, text="Salir", command=self.confirmar_salida, style="Dorado.TButton")
         #---------------.packs-----------------------
+        #logo
+        self.labellogo.pack(pady=4)
         #id
         self.etiqueta1.pack(pady = 2)
         self.labelid.pack(pady = 2)
@@ -162,13 +177,14 @@ class VentanaRegistro():
         self.labelresultado.config(text= "Primero debes ingresar la información")
      else:
         self.ventana3 = tk.Toplevel()
-        self.reportenombre = tk.Label(self.ventana3, text=f"{self.cliente.nombre}")
-        self.reporteid = tk.Label(self.ventana3, text=f"{self.cliente.identificacion}")
-        self.reportegénero = tk.Label(self.ventana3, text=f"{self.cliente.genero}")
-        self.reportemenu = tk.Label(self.ventana3, text=f"{self.cliente.menu}")
-        self.reportecosto = tk.Label(self.ventana3, text=f"{self.cliente.costo_sesion}")
-        self.reportensesiones = tk.Label(self.ventana3, text=f"{self.cliente.nsesiones}")
-        self.reportetotal = tk.Label(self.ventana3, text=f"{self.cliente.calculo_total(self.cliente.costo_sesion, self.cliente.nsesiones)}")
+        self.ventana3.config(bg="#FAF3E0")
+        self.reportenombre = tk.Label(self.ventana3, text=f"{self.cliente.nombre}", bg="#FAF3E0", fg="#2B2118")
+        self.reporteid = tk.Label(self.ventana3, text=f"{self.cliente.identificacion}", bg="#FAF3E0", fg="#2B2118")
+        self.reportegénero = tk.Label(self.ventana3, text=f"{self.cliente.genero}", bg="#FAF3E0", fg="#2B2118")
+        self.reportemenu = tk.Label(self.ventana3, text=f"{self.cliente.menu}", bg="#FAF3E0", fg="#2B2118")
+        self.reportecosto = tk.Label(self.ventana3, text=f"{self.cliente.costo_sesion}", bg="#FAF3E0", fg="#2B2118")
+        self.reportensesiones = tk.Label(self.ventana3, text=f"{self.cliente.nsesiones}", bg="#FAF3E0", fg="#2B2118")
+        self.reportetotal = tk.Label(self.ventana3, text=f"{self.cliente.calculo_total(self.cliente.costo_sesion, self.cliente.nsesiones)}", bg="#FAF3E0", fg="#2B2118")
 
 
         self.reportenombre.pack(pady=2)
@@ -191,28 +207,35 @@ ventana = tk.Tk()
 ventana.title("LA RAMBLA ROJA")
 
 ventana.geometry("1300x700")
+ventana.config(bg="#FAF3E0")
+
+estilo_acceso = ttk.Style()
+estilo_acceso.theme_use("clam")
+estilo_acceso.configure("Acceso.TButton", background="#8B1E3F", foreground="#FAF3E0",
+    font=("Helvetica", 10, "bold"), padding=8)
+estilo_acceso.map("Acceso.TButton", background=[("active", "#6e1732")])
 
 #---------------------------------------widgets ventana principal----------------
 
 #Mensaje incial
-mensaje1 = tk.Label(ventana, text = "Contraseña:", font = "Arial 9")
+mensaje1 = tk.Label(ventana, text="Contraseña:", font="Arial 9", bg="#FAF3E0", fg="#2B2118")
 
 #mensaje contraseña incorrecta
-mensaje2 = tk.Label(ventana, text ="")
+mensaje2 = tk.Label(ventana, text="", bg="#FAF3E0", fg="#8B1E3F")
 
 #Autor
-autor = tk.Label(ventana,text= "Jorge Andrés Gómez Betancur")
+autor = tk.Label(ventana, text="Jorge Andrés Gómez Betancur", bg="#FAF3E0", fg="#2B2118")
 
 
 #Nombre negocio
-namenegocio = tk.Label(ventana, text="LA RAMBLA ROJA", font="Helvetica 11")
+namenegocio = tk.Label(ventana, text="🍷 LA RAMBLA ROJA 🍷", font="Helvetica 20 bold", bg="#FAF3E0", fg="#8B1E3F")
 
 #Entrada de contraseña
 entrycontraseña = tk.Entry(ventana, show="*")
 
 
 #Botón contraseña
-boton = tk.Button(ventana, text = "Iniciar sesión", command = verificar_contraseña)
+boton = ttk.Button(ventana, text="Iniciar sesión", command=verificar_contraseña, style="Acceso.TButton")
 
 #comandos llamada widgets
 namenegocio.pack(pady=4)
